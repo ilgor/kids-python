@@ -49,7 +49,7 @@ jobs:
       - run: yarn ci:cypress-run
       - run: yarn build
 
-      - aws-s3/sync:
+      - aws-s3:
           from: build
           to: 's3://kids-python/'
           arguments: |
