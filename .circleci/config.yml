@@ -52,8 +52,4 @@ jobs:
       - run: sudo pip install awscli --upgrade
       - run: aws --version
       - run: aws s3 ls
-      - run: 
-          name: "Deploy to S3"
-          command: |
-              aws s3 sync build/ s3://${AWS_BUCKET_NAME} --delete
-              # aws cloudfront create-invalidation --distribution-id "${PRODUCTION_DISTRIBUTION_ID}" --paths /index.html
+      - run: yarn deploy
