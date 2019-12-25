@@ -1,7 +1,7 @@
 version: 2
 orbs:
   cypress: cypress-io/cypress@1
-  aws-s3: circleci/aws-s3@1.0.11
+  aws-s3: circleci/aws-s3@1.0.12
 jobs:
   build:
     docker:
@@ -37,10 +37,23 @@ jobs:
     - run: yarn test
     - run: yarn ci:cypress-run
 
+
+
     - aws-s3/sync:
-        from: build
-        to: 's3://kids-python/'
-        arguments: |
-          --acl public-read \
-          --cache-control "max-age=86400"
-        overwrite: true
+      from: build
+      to: 's3://kids-python'
+      aws-access-key-id: AWS_ACCESS_KEY_ID
+      aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+      aws-region: AWS_REGION
+      arguments: |
+        --acl public-read \
+        --cache-control "max-age=86400"
+      overwrite: true
+
+    # - aws-s3/sync:
+    #     from: build
+    #     to: 's3://kids-python/'
+    #     arguments: |
+    #       --acl public-read \
+    #       --cache-control "max-age=86400"
+    #     overwrite: true
