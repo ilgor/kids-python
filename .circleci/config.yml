@@ -55,8 +55,6 @@ jobs:
 
       - run: yarn install
 
-      - run: go get -v github.com/bep/s3deploy
-
       - save_cache:
           paths:
             - node_modules
