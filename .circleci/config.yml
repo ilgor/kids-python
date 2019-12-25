@@ -11,9 +11,6 @@ jobs:
     - run: 
         name: "Setup custom environment variables"
         command: echo 'export CYPRESS_RECORD_KEY="4fc8874f-8ffb-4445-ad9b-ecb21142a871"' >> $BASH_ENV
-    - run: # test what branch we're on.
-        name: "My Cypress Key is: "
-        command: echo ${CYPRESS_RECORD_KEY}
     - restore_cache:
         keys:
         - v1-dependencies-{{ checksum "package.json" }}
