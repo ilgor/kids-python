@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { Route, Switch } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Bolalar uchun sodda <code>Python</code> kurslari kutib oling!
-        </p>
-        <a
-          className="App-link"
-          href="https://www.python.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Python Inglizcha Portali
-        </a>
-      </header>
-    </div>
-  );
+import Navbar from "./components/navbar/Navbar";
+import HomeComponent from './components/home'
+import AboutComponent from './components/about'
+import ContactComponent from './components/contact'
+
+import GlobalStyle from './styles/Global';
+
+export default class App extends Component {
+
+  state = {
+    navbarOpen: false
+  }
+
+  handleNavbar = () => {
+    this.setState({ navbarOpen: !this.state.navbarOpen });
+  }
+
+  render() {
+  
+    return(
+      <>
+        <Navbar 
+          navbarState={this.state.navbarOpen} 
+          handleNavbar={this.handleNavbar}
+        />
+        <br/><br/><br/><br/>
+        <Switch>
+          <Route path="/" exact component={HomeComponent} />
+          <Route path="/about" component={AboutComponent} />
+          <Route path="/contact" component={ContactComponent} />
+        </Switch>
+        <GlobalStyle />
+      </>
+    )
+  }
 }
-
-export default App;
