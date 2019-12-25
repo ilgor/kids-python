@@ -47,6 +47,7 @@ jobs:
       - run: yarn size
       - run: yarn test
       - run: yarn ci:cypress-run
+      - run: yarn build
 
       - aws-s3/sync:
           from: build
