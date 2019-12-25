@@ -5,42 +5,42 @@ orbs:
 jobs:
   build:
     docker:
-    - image: circleci/node:12.14.0
+      - image: circleci/node:12.14.0
     working_directory: ~/kids-python
     steps:
-    - run:
-        name: Install Circle CI Dependencies
-        command: sudo apt-get install xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
-    - checkout
-    - run: 
-        name: "Setup Circle CI environment variables"
-        command: |
-          echo 'export CYPRESS_RECORD_KEY="4fc8874f-8ffb-4445-ad9b-ecb21142a871"' >> $BASH_ENV
-    - run: 
-        name: "Setup AWS environment variables"
-        command: |
-          echo 'export AWS_ACCESS_KEY_ID="AKIAZ7P7HNIT7LYUHKNG"' >> $BASH_ENV
-          echo 'export AWS_SECRET_ACCESS_KEY="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"' >> $BASH_ENV
-          echo 'export AWS_REGION="us-east-1"' >> $BASH_ENV
-    - restore_cache:
-        keys:
-        - v1-dependencies-{{ checksum "package.json" }}
-        - v1-dependencies-
-    - run: yarn install
-    - save_cache:
-        paths:
-        - node_modules
-        key: v1-dependencies-{{ checksum "package.json" }}
-    
-    - run: yarn lint
-    - run: yarn size
-    - run: yarn test
-    - run: yarn ci:cypress-run
+      - run:
+          name: Install Circle CI Dependencies
+          command: sudo apt-get install xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+      - checkout
+      - run:
+          name: "Setup Circle CI environment variables"
+          command: |
+            echo 'export CYPRESS_RECORD_KEY="4fc8874f-8ffb-4445-ad9b-ecb21142a871"' >> $BASH_ENV
+      - run:
+          name: "Setup AWS environment variables"
+          command: |
+            echo 'export AWS_ACCESS_KEY_ID="AKIAZ7P7HNIT7LYUHKNG"' >> $BASH_ENV
+            echo 'export AWS_SECRET_ACCESS_KEY="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"' >> $BASH_ENV
+            echo 'export AWS_REGION="us-east-1"' >> $BASH_ENV
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+      - run: yarn install
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
 
-    - aws-s3/sync:
-      from: build
-      to: 's3://kids-python'
-      arguments: |
-        --acl public-read \
-        --cache-control "max-age=86400"
-      overwrite: true
+      - run: yarn lint
+      - run: yarn size
+      - run: yarn test
+      - run: yarn ci:cypress-run
+
+      - aws-s3/sync:
+          from: build
+          to: 's3://kids-python/'
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          overwrite: true
